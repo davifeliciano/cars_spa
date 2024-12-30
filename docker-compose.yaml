@@ -1,0 +1,12 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+
+  backend:
+    image: leogloriainfnet/cars:1.0-linux
+    ports:
+      - "8080:8080"
