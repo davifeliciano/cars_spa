@@ -1,12 +1,13 @@
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import RestoreIcon from "@mui/icons-material/Restore";
-import BottomNavigation from "@mui/material/BottomNavigation";
-import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import Box from "@mui/material/Box";
 import CssBaseline from "@mui/material/CssBaseline";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import * as React from "react";
+import { SnackbarProvider } from "notistack";
+import { BrowserRouter, Route, Routes } from "react-router";
+import { TokenProvider } from "./contexts/token/TokenProvider";
+import useAxiosInterceptor from "./hooks/useAxiosInterceptor";
+import Index from "./routes/Index";
+import BaseLayout from "./routes/Layout";
+import Login from "./routes/auth/Login";
+import Logout from "./routes/auth/Logout";
 
 const darkTheme = createTheme({
   palette: {
@@ -14,31 +15,36 @@ const darkTheme = createTheme({
   },
 });
 
-export default function App() {
+function AxiosInterceptorSetup() {
+  useAxiosInterceptor();
+  return null;
+}
+
+function ApplicationRoutes() {
   return (
-    <ThemeProvider theme={darkTheme}>
-      <CssBaseline />
-      <SimpleBottomNavigation />
-    </ThemeProvider>
+    <Routes>
+      <Route element={<BaseLayout />}>
+        <Route index element={<Index />} />
+        <Route path="auth">
+          <Route path="login" element={<Login />} />
+          <Route path="logout" element={<Logout />} />
+        </Route>
+      </Route>
+    </Routes>
   );
 }
 
-export function SimpleBottomNavigation() {
-  const [value, setValue] = React.useState(0);
-
+export default function App() {
   return (
-    <Box sx={{ width: 500 }}>
-      <BottomNavigation
-        showLabels
-        value={value}
-        onChange={(_event, newValue) => {
-          setValue(newValue);
-        }}
-      >
-        <BottomNavigationAction label="Recents" icon={<RestoreIcon />} />
-        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-        <BottomNavigationAction label="Nearby" icon={<LocationOnIcon />} />
-      </BottomNavigation>
-    </Box>
+    <ThemeProvider theme={darkTheme}>
+      <TokenProvider>
+        <CssBaseline />
+        <SnackbarProvider />
+        <BrowserRouter>
+          <AxiosInterceptorSetup />
+          <ApplicationRoutes />
+        </BrowserRouter>
+      </TokenProvider>
+    </ThemeProvider>
   );
 }

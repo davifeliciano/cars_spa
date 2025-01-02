@@ -20,14 +20,8 @@
             ],
             "url": {
               "raw": "{{server_url}}/api/usuarios/my-profile",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "usuarios",
-                "my-profile"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "usuarios", "my-profile"]
             },
             "auth": {
               "type": "bearer",
@@ -59,14 +53,8 @@
             },
             "url": {
               "raw": "{{server_url}}/api/usuarios/login",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "usuarios",
-                "login"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "usuarios", "login"]
             }
           }
         },
@@ -82,13 +70,8 @@
             ],
             "url": {
               "raw": "{{server_url}}/api/usuarios",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "usuarios"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "usuarios"]
             }
           }
         }
@@ -109,14 +92,8 @@
             ],
             "url": {
               "raw": "{{server_url}}/api/carros/export-cars",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros",
-                "export-cars"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros", "export-cars"]
             }
           }
         },
@@ -146,14 +123,8 @@
             ],
             "url": {
               "raw": "{{server_url}}/api/carros/search?pais=Franca&modelo=passat&fabricante=Volkswagen",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros",
-                "search"
-              ],
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros", "search"],
               "query": [
                 {
                   "key": "pais",
@@ -185,13 +156,8 @@
             ],
             "url": {
               "raw": "{{server_url}}/api/carros?page=0&size=20",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros"
-              ],
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros"],
               "query": [
                 {
                   "key": "page",
@@ -211,13 +177,8 @@
             "method": "GET",
             "url": {
               "raw": "{{server_url}}/api/carros",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros"]
             }
           }
         },
@@ -227,14 +188,8 @@
             "method": "GET",
             "url": {
               "raw": "{{server_url}}/api/carros/1",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros",
-                "1"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros", "1"]
             }
           }
         },
@@ -254,13 +209,8 @@
             },
             "url": {
               "raw": "{{server_url}}/api/carros",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros"]
             }
           }
         },
@@ -280,14 +230,8 @@
             },
             "url": {
               "raw": "{{server_url}}/api/carros/1",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros",
-                "1"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros", "1"]
             }
           }
         },
@@ -297,14 +241,8 @@
             "method": "DELETE",
             "url": {
               "raw": "{{server_url}}/api/carros/1",
-              "host": [
-                "{{server_url}}"
-              ],
-              "path": [
-                "api",
-                "carros",
-                "1"
-              ]
+              "host": ["{{server_url}}"],
+              "path": ["api", "carros", "1"]
             }
           }
         }
