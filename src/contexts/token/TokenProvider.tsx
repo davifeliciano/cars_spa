@@ -8,6 +8,7 @@ interface TokenProviderProps {
 
 export function TokenProvider({ children }: TokenProviderProps) {
   const [token, setToken] = useState<Token | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -15,6 +16,8 @@ export function TokenProvider({ children }: TokenProviderProps) {
     if (token) {
       setToken(token);
     }
+
+    setLoading(false);
   }, []);
 
   useEffect(() => {
@@ -24,6 +27,10 @@ export function TokenProvider({ children }: TokenProviderProps) {
       localStorage.removeItem("token");
     }
   }, [token]);
+
+  if (loading) {
+    return null;
+  }
 
   return (
     <TokenContext.Provider value={{ token, setToken }}>
