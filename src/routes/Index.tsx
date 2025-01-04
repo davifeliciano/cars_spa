@@ -1,6 +1,7 @@
 import { Add, Download } from "@mui/icons-material";
 import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
 import React, { useEffect } from "react";
+import { useNavigate } from "react-router";
 import axiosInstance from "../api/axios";
 import CarTable from "../components/CarTable";
 import ProfileCard from "../components/ProfileCard";
@@ -12,6 +13,7 @@ export default function Index() {
   useProtectedRoute();
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [cars, setCars] = React.useState<Car[] | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axiosInstance
@@ -20,6 +22,7 @@ export default function Index() {
         setProfile(response.data);
       })
       .catch((error) => {
+        // TODO! Handle error and show a snackbar
         console.error(error);
       });
   }, []);
@@ -31,6 +34,7 @@ export default function Index() {
         setCars(response.data);
       })
       .catch((error) => {
+        // TODO! Handle error and show a snackbar
         console.error(error);
       });
   }, []);
@@ -44,11 +48,15 @@ export default function Index() {
         <CarTable cars={cars} />
       </Box>
       <SpeedDial
-        ariaLabel="SpeedDial basic example"
-        sx={{ position: "absolute", bottom: 32, right: 32 }}
+        ariaLabel="Adicionar ou exportar carros"
+        sx={{ position: "fixed", bottom: 32, right: 32 }}
         icon={<SpeedDialIcon />}
       >
-        <SpeedDialAction icon={<Add />} tooltipTitle="Adicionar Carro" />
+        <SpeedDialAction
+          icon={<Add />}
+          tooltipTitle="Adicionar Carro"
+          onClick={() => navigate("/cars/new")}
+        />
         <SpeedDialAction icon={<Download />} tooltipTitle="Exportar" />
       </SpeedDial>
     </React.Fragment>

@@ -7,3 +7,5 @@ export interface Car {
   fabricante: string;
   pais: string;
 }
+
+export type CarWithoutId = Omit<Car, "id">;

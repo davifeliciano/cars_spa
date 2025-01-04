@@ -8,6 +8,7 @@ import Index from "./routes/Index";
 import BaseLayout from "./routes/Layout";
 import Login from "./routes/auth/Login";
 import Logout from "./routes/auth/Logout";
+import NewCar from "./routes/cars/NewCar";
 
 const darkTheme = createTheme({
   palette: {
@@ -28,6 +29,9 @@ function ApplicationRoutes() {
         <Route path="auth">
           <Route path="login" element={<Login />} />
           <Route path="logout" element={<Logout />} />
+        </Route>
+        <Route path="cars">
+          <Route path="new" element={<NewCar />} />
         </Route>
       </Route>
     </Routes>
