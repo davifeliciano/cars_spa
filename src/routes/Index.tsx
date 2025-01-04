@@ -13,6 +13,8 @@ export default function Index() {
   useProtectedRoute();
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [cars, setCars] = React.useState<Car[] | null>(null);
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export default function Index() {
 
   useEffect(() => {
     axiosInstance
-      .get<Car[]>("/carros")
+      .get<Car[]>("/carros", { headers: { page: page, size: rowsPerPage } })
       .then((response) => {
         setCars(response.data);
       })
@@ -37,7 +39,7 @@ export default function Index() {
         // TODO! Handle error and show a snackbar
         console.error(error);
       });
-  }, []);
+  }, [page, rowsPerPage]);
 
   return (
     <React.Fragment>
@@ -45,7 +47,16 @@ export default function Index() {
         <ProfileCard profile={profile} />
       </Box>
       <Box mt={2}>
-        <CarTable cars={cars} />
+        <CarTable
+          cars={cars}
+          page={page}
+          handleChangePage={(_, newPage) => setPage(newPage)}
+          rowsPerPage={rowsPerPage}
+          handleChangeRowsPerPage={(event) => {
+            setRowsPerPage(parseInt(event.target.value, 10));
+            setPage(0);
+          }}
+        />
       </Box>
       <SpeedDial
         ariaLabel="Adicionar ou exportar carros"

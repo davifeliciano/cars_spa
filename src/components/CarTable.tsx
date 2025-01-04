@@ -8,12 +8,22 @@ import {
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
 } from "@mui/material";
 import { Car } from "../models/Car";
 
 interface CarTableProps {
   cars: Car[] | null;
+  page: number;
+  rowsPerPage: number;
+  handleChangePage: (
+    event: React.MouseEvent<HTMLButtonElement> | null,
+    newPage: number
+  ) => void;
+  handleChangeRowsPerPage: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
 }
 
 function TableBodySkeleton() {
@@ -63,9 +73,15 @@ function TableBodySkeleton() {
   );
 }
 
-export default function CarTable({ cars }: CarTableProps) {
+export default function CarTable({
+  cars,
+  page,
+  rowsPerPage,
+  handleChangePage,
+  handleChangeRowsPerPage,
+}: CarTableProps) {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} sx={{ mb: 16 }}>
       <Table>
         <TableHead>
           <TableRow>
@@ -116,6 +132,16 @@ export default function CarTable({ cars }: CarTableProps) {
           <TableBodySkeleton />
         )}
       </Table>
+      <TablePagination
+        component="div"
+        count={-1}
+        page={page}
+        onPageChange={handleChangePage}
+        rowsPerPage={rowsPerPage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        rowsPerPageOptions={[5, 10, 25]}
+        labelDisplayedRows={({ from, to }) => `${from} - ${to}`}
+      />
     </TableContainer>
   );
 }
