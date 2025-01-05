@@ -16,22 +16,27 @@ const carSchema = z.object({
 });
 
 interface CreateAndUpdateFormProps {
-  car: CarWithoutId;
-  setCar: React.Dispatch<React.SetStateAction<CarWithoutId>>;
+  car: CarWithoutId | null;
+  setCar: React.Dispatch<React.SetStateAction<CarWithoutId | null>>;
   onValidSubmit: () => void;
+  disabled?: boolean;
 }
 
 export default function CreateAndUpdateForm({
   car,
   setCar,
   onValidSubmit,
+  disabled,
 }: CreateAndUpdateFormProps) {
   const [errors, setErrors] =
     useState<z.inferFlattenedErrors<typeof carSchema>>();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
-    setCar({ ...car, [name]: value });
+
+    if (car) {
+      setCar({ ...car, [name]: value });
+    }
   };
 
   const validate = () => {
@@ -70,59 +75,70 @@ export default function CreateAndUpdateForm({
       <TextField
         label="Modelo"
         name="modelo"
-        value={car.modelo}
+        value={car?.modelo}
         onChange={handleChange}
         margin="normal"
         error={!!errors?.fieldErrors.modelo}
         helperText={errors?.fieldErrors.modelo ?? " "}
+        disabled={car === null || disabled}
       />
       <TextField
         label="Ano"
         name="ano"
-        value={car.ano}
+        value={car?.ano}
         onChange={handleChange}
         margin="normal"
         error={!!errors?.fieldErrors.ano}
         helperText={errors?.fieldErrors.ano ?? " "}
+        disabled={car === null || disabled}
       />
       <TextField
         label="Cor"
         name="cor"
-        value={car.cor}
+        value={car?.cor}
         onChange={handleChange}
         margin="normal"
         error={!!errors?.fieldErrors.cor}
         helperText={errors?.fieldErrors.cor ?? " "}
+        disabled={car === null || disabled}
       />
       <TextField
         label="Cavalos de Potência"
         name="cavalosDePotencia"
         type="number"
-        value={car.cavalosDePotencia}
+        value={car?.cavalosDePotencia}
         onChange={handleChange}
         margin="normal"
         error={!!errors?.fieldErrors.cavalosDePotencia}
         helperText={errors?.fieldErrors.cavalosDePotencia ?? " "}
+        disabled={car === null || disabled}
       />
       <TextField
         label="Fabricante"
         name="fabricante"
-        value={car.fabricante}
+        value={car?.fabricante}
         onChange={handleChange}
         margin="normal"
         error={!!errors?.fieldErrors.fabricante}
         helperText={errors?.fieldErrors.fabricante ?? " "}
+        disabled={car === null || disabled}
       />
       <TextField
         label="País"
         name="pais"
-        value={car.pais}
+        value={car?.pais}
         onChange={handleChange}
         margin="normal"
         error={!!errors?.fieldErrors.pais}
         helperText={errors?.fieldErrors.pais ?? " "}
+        disabled={car === null || disabled}
       />
-      <Button type="submit" variant="contained" color="primary">
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        disabled={car === null || disabled}
+      >
         <Save />
       </Button>
     </Box>

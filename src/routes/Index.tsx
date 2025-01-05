@@ -10,6 +10,7 @@ import { Car } from "../models/Car";
 import Profile from "../models/Profile";
 
 export default function Index() {
+  // TODO! Map page and rowsPerPage to URL query params
   useProtectedRoute();
   const [profile, setProfile] = React.useState<Profile | null>(null);
   const [cars, setCars] = React.useState<Car[] | null>(null);

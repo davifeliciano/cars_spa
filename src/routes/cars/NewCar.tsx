@@ -1,18 +1,17 @@
 import { Box, Container, Typography } from "@mui/material";
-import { AxiosResponse } from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import axiosInstance from "../../api/axios";
 import CreateAndUpdateForm from "../../components/CreateAndUpdateForm";
 import { useProtectedRoute } from "../../hooks/useProtectedRoute";
-import { Car, CarWithoutId } from "../../models/Car";
+import { CarWithoutId } from "../../models/Car";
+import CarsService from "../../services/CarsService";
 
 export default function NewCar() {
   useProtectedRoute();
   const navigate = useNavigate();
 
-  const [car, setCar] = useState<CarWithoutId>({
+  const [car, setCar] = useState<CarWithoutId | null>({
     modelo: "",
     ano: 1900,
     cor: "",
@@ -22,11 +21,15 @@ export default function NewCar() {
   });
 
   const handleSubmit = () => {
-    axiosInstance
-      .post<Car, AxiosResponse<Car, CarWithoutId>>("/carros", car)
+    if (!car) {
+      return;
+    }
+
+    CarsService.createCar(car)
       .then(() => {
         enqueueSnackbar("Car created successfully", { variant: "success" });
-        // navigate(`/carros/${response.data.id}`, { replace: true });
+        // TODO! Navigate back to the previous page when pagination
+        //       with query params is implemented
         navigate("/");
       })
       .catch((error) => {
