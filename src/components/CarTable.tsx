@@ -108,7 +108,7 @@ export default function CarTable({
                 <TableCell>{car.cavalosDePotencia}</TableCell>
                 <TableCell>{car.fabricante}</TableCell>
                 <TableCell>{car.pais}</TableCell>
-                <TableCell>
+                <TableCell sx={{ minWidth: 170 }}>
                   <Button
                     variant="text"
                     color="primary"
@@ -141,6 +141,11 @@ export default function CarTable({
         onRowsPerPageChange={handleChangeRowsPerPage}
         rowsPerPageOptions={[5, 10, 25]}
         labelDisplayedRows={({ from, to }) => `${from} - ${to}`}
+        slotProps={{
+          actions: {
+            nextButton: { disabled: (cars?.length ?? 0) < rowsPerPage },
+          },
+        }}
       />
     </TableContainer>
   );

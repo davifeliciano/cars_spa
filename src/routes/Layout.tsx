@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <React.Fragment>
       <HeaderAppBar />
-      <Container maxWidth="md">
+      <Container maxWidth="md" sx={{ mt: 10 }}>
         <Outlet />
       </Container>
     </React.Fragment>
