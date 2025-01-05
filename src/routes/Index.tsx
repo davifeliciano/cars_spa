@@ -1,5 +1,7 @@
 import { Add, Download } from "@mui/icons-material";
 import { Box, SpeedDial, SpeedDialAction, SpeedDialIcon } from "@mui/material";
+import { HttpStatusCode } from "axios";
+import { enqueueSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import axiosInstance from "../api/axios";
@@ -25,10 +27,20 @@ export default function Index() {
         setProfile(response.data);
       })
       .catch((error) => {
-        // TODO! Handle error and show a snackbar
         console.error(error);
+
+        if (
+          error.response?.status === HttpStatusCode.BadRequest ||
+          error.response?.status === HttpStatusCode.InternalServerError
+        ) {
+          enqueueSnackbar("Something went wrong. Prompting login again.", {
+            variant: "error",
+          });
+        }
+
+        navigate("/auth/logout");
       });
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     axiosInstance
@@ -37,10 +49,17 @@ export default function Index() {
         setCars(response.data);
       })
       .catch((error) => {
-        // TODO! Handle error and show a snackbar
         console.error(error);
+
+        if (error.response?.status === HttpStatusCode.InternalServerError) {
+          enqueueSnackbar("Something went wrong. Prompting login again.", {
+            variant: "error",
+          });
+        }
+
+        navigate("/auth/logout");
       });
-  }, [page, rowsPerPage]);
+  }, [page, rowsPerPage, navigate]);
 
   return (
     <React.Fragment>

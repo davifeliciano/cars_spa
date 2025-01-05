@@ -12,7 +12,10 @@ const useAxiosInterceptor = () => {
     const responseInterceptor = axiosInstance.interceptors.response.use(
       (response) => response,
       (error) => {
-        if (error.response.status === HttpStatusCode.Unauthorized) {
+        if (
+          error.response.status === HttpStatusCode.Unauthorized ||
+          error.response.status === HttpStatusCode.Forbidden
+        ) {
           setToken(null);
           navigate("/auth/login");
         }

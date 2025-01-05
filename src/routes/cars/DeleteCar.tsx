@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import { enqueueSnackbar } from "notistack";
 import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -29,7 +30,23 @@ export default function DeleteCar() {
       })
       .catch((error) => {
         console.error(error);
-        // TODO! Handle error and show a snackbar
+
+        if (error.response?.status === HttpStatusCode.BadRequest) {
+          enqueueSnackbar(`Car ${idNumber} not found`, {
+            variant: "error",
+          });
+        }
+
+        if (error.response?.status === HttpStatusCode.InternalServerError) {
+          enqueueSnackbar("Something went wrong", {
+            variant: "error",
+          });
+        }
+
+        navigate("/");
+        return;
+        // TODO! Navigate back to the previous page when pagination
+        //       with query params is implemented
       });
   }, [id, navigate]);
 

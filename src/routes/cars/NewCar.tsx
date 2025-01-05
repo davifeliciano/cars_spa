@@ -1,4 +1,5 @@
 import { Box, Container, Typography } from "@mui/material";
+import { HttpStatusCode } from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -34,7 +35,23 @@ export default function NewCar() {
       })
       .catch((error) => {
         console.error(error);
-        // TODO! Handle error and show a snackbar
+
+        if (error.response?.status === HttpStatusCode.BadRequest) {
+          enqueueSnackbar("Invalid data on car creation", {
+            variant: "error",
+          });
+        }
+
+        if (error.response?.status === HttpStatusCode.InternalServerError) {
+          enqueueSnackbar("Something went wrong", {
+            variant: "error",
+          });
+        }
+
+        navigate("/");
+        return;
+        // TODO! Navigate back to the previous page when pagination
+        //       with query params is implemented
       });
   };
 

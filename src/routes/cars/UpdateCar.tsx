@@ -1,4 +1,5 @@
 import { Box, Container, Skeleton, Typography } from "@mui/material";
+import { HttpStatusCode } from "axios";
 import { enqueueSnackbar } from "notistack";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
@@ -31,22 +32,54 @@ export default function NewCar() {
       })
       .catch((error) => {
         console.error(error);
-        // TODO! Handle error and show a snackbar
+
+        if (error.response?.status === HttpStatusCode.BadRequest) {
+          enqueueSnackbar(`Invalid id for resource car`, {
+            variant: "error",
+          });
+        }
+
+        if (error.response?.status === HttpStatusCode.NotFound) {
+          enqueueSnackbar(`Car ${idNumber} not found`, {
+            variant: "error",
+          });
+        }
+
+        if (error.response?.status === HttpStatusCode.InternalServerError) {
+          enqueueSnackbar("Something went wrong", {
+            variant: "error",
+          });
+        }
+
+        navigate("/");
+        return;
+        // TODO! Navigate back to the previous page when pagination
+        //       with query params is implemented
       });
   }, [navigate, id]);
 
   const handleSubmit = () => {
     setIsUpdating(true);
+    const idNumber = Number(id);
 
-    if (!car || !id) {
-      setIsUpdating(false);
-      enqueueSnackbar("Please fill out all required fields", {
+    if (!car) {
+      enqueueSnackbar("Car information not loaded yet", {
         variant: "error",
       });
+    }
+
+    if (Number.isNaN(idNumber)) {
+      enqueueSnackbar(`Invalid id for resource car`, {
+        variant: "error",
+      });
+    }
+
+    if (!car || Number.isNaN(idNumber)) {
+      setIsUpdating(false);
       return;
     }
 
-    CarsService.updateCar({ ...car, id: parseInt(id) })
+    CarsService.updateCar({ ...car, id: idNumber })
       .then(() => {
         enqueueSnackbar("Car updated successfully", { variant: "success" });
         setIsUpdating(false);
@@ -54,7 +87,23 @@ export default function NewCar() {
       })
       .catch((error) => {
         console.error(error);
-        // TODO! Handle error and show a snackbar
+
+        if (error.response?.status === HttpStatusCode.BadRequest) {
+          enqueueSnackbar(`Car ${idNumber} not found`, {
+            variant: "error",
+          });
+        }
+
+        if (error.response?.status === HttpStatusCode.InternalServerError) {
+          enqueueSnackbar("Something went wrong", {
+            variant: "error",
+          });
+        }
+
+        navigate("/");
+        return;
+        // TODO! Navigate back to the previous page when pagination
+        //       with query params is implemented
       });
   };
 
