@@ -10,6 +10,7 @@ import ProfileCard from "../components/ProfileCard";
 import { useProtectedRoute } from "../hooks/useProtectedRoute";
 import { Car } from "../models/Car";
 import Profile from "../models/Profile";
+import CarsService from "../services/CarsService";
 
 export default function Index() {
   // TODO! Map page and rowsPerPage to URL query params
@@ -61,6 +62,25 @@ export default function Index() {
       });
   }, [page, rowsPerPage, navigate]);
 
+  const handleExport = () => {
+    CarsService.exportCars()
+      .then((response) => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "cars.csv");
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      })
+      .catch((error) => {
+        console.error(error);
+        enqueueSnackbar("Something went wrong on the cars export", {
+          variant: "error",
+        });
+      });
+  };
+
   return (
     <React.Fragment>
       <Box mt={2}>
@@ -88,7 +108,11 @@ export default function Index() {
           tooltipTitle="Adicionar Carro"
           onClick={() => navigate("/cars/new")}
         />
-        <SpeedDialAction icon={<Download />} tooltipTitle="Exportar" />
+        <SpeedDialAction
+          icon={<Download />}
+          tooltipTitle="Exportar"
+          onClick={handleExport}
+        />
       </SpeedDial>
     </React.Fragment>
   );

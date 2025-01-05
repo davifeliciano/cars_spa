@@ -24,4 +24,8 @@ export default class CarsService {
   static async deleteCar(id: number) {
     return axiosInstance.delete<Car>(`/carros/${id}`);
   }
+
+  static async exportCars() {
+    return axiosInstance.get("/carros/export-cars", { responseType: "blob" });
+  }
 }
