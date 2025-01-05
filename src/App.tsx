@@ -8,6 +8,7 @@ import Index from "./routes/Index";
 import BaseLayout from "./routes/Layout";
 import Login from "./routes/auth/Login";
 import Logout from "./routes/auth/Logout";
+import DeleteCar from "./routes/cars/DeleteCar";
 import NewCar from "./routes/cars/NewCar";
 import UpdateCar from "./routes/cars/UpdateCar";
 
@@ -34,6 +35,7 @@ function ApplicationRoutes() {
         <Route path="cars">
           <Route path="new" element={<NewCar />} />
           <Route path=":id/edit" element={<UpdateCar />} />
+          <Route path=":id/delete" element={<DeleteCar />} />
         </Route>
       </Route>
     </Routes>

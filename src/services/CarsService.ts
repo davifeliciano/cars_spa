@@ -20,4 +20,8 @@ export default class CarsService {
   static async getCar(id: number) {
     return axiosInstance.get<Car>(`/carros/${id}`);
   }
+
+  static async deleteCar(id: number) {
+    return axiosInstance.delete<Car>(`/carros/${id}`);
+  }
 }

@@ -11,7 +11,10 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router";
 import { Car } from "../models/Car";
+import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
 interface CarTableProps {
   cars: Car[] | null;
@@ -80,6 +83,10 @@ export default function CarTable({
   handleChangePage,
   handleChangeRowsPerPage,
 }: CarTableProps) {
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const navigate = useNavigate();
+  const [idOfCarToDelete, setIdOfCarToDelete] = useState<number>(-1);
+
   return (
     <TableContainer component={Paper} sx={{ mb: 16 }}>
       <Table>
@@ -120,7 +127,10 @@ export default function CarTable({
                   <Button
                     variant="text"
                     color="error"
-                    href={`/cars/${car.id}/delete`}
+                    onClick={() => {
+                      setDeleteDialogOpen(true);
+                      setIdOfCarToDelete(car.id);
+                    }}
                   >
                     <Delete />
                   </Button>
@@ -146,6 +156,13 @@ export default function CarTable({
             nextButton: { disabled: (cars?.length ?? 0) < rowsPerPage },
           },
         }}
+      />
+      <ConfirmDeleteDialog
+        open={deleteDialogOpen}
+        title="Confirm Delete"
+        description="Are you sure you want to delete this car?"
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={() => navigate(`/cars/${idOfCarToDelete}/delete`)}
       />
     </TableContainer>
   );

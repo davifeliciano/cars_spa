@@ -15,7 +15,7 @@ export default function NewCar() {
   const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
-    const idNumber = parseInt(id ?? "");
+    const idNumber = Number(id);
 
     if (Number.isNaN(idNumber)) {
       enqueueSnackbar("Invalid car ID", { variant: "error" });
